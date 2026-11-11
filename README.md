@@ -52,6 +52,8 @@ For a first session, run `ask-pmai`, `define-good` and `review-failures`. It tak
 
 ## Learn mode
 
+`ask-pmai` always starts by showing you the road, with your own agent as the example: what an eval is, what you will decide, what you will get, and how you will know the result is correct.
+
 `ask-pmai` asks whether you want learn mode. When it is on, each concept gets one plain sentence the first time it comes up, explained with your own data. There are no lectures.
 
 ## Install

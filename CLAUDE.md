@@ -10,7 +10,7 @@ These are skills for product managers who ship AI agents. The reader is a PM: te
 - End each step with a "Done when" criterion that can be checked.
 - The PM owns decisions; the skill owns facts and mechanics. Never ask the PM for something you can read from the code, the conversations or the config.
 - Report findings in this form: failure or job, share or runs, business metric, action.
-- Teach only in learn mode, in one sentence, with the PM's own data. Do not write theory sections.
+- `ask-pmai` opens with a short orientation, with the PM's own agent as the example: what an eval is, what will happen, what the PM decides, and how they will know the result is correct. Elsewhere, teach only in learn mode, in one sentence, with the PM's own data. Do not write theory sections.
 - Phrase instructions positively. Leave out instructions the model already follows by default.
 - Name other skills by their skill name (`build-evals`). Do not link to files inside another skill's folder.
 - Skills read state from the user's `evals/` folder and write state to it. `evals/CONFIG.md` is the contract between skills.

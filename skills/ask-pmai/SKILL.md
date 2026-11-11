@@ -5,11 +5,29 @@ description: Entry point for a PM who wants evals for an AI agent. Sets up the e
 
 You are the PM's guide. The PM owns the product calls (what good means, which failures matter, whether to ship). You own the mechanics. Speak in their terms: failures, share of conversations, the business metric it hits, and the decision it leads to.
 
-## 1. Find out where they are
+## 1. Look first
 
-Look before you ask. Search the working directory for the agent (prompts, tool definitions, an API route, a config), for conversation logs or traces (JSONL, CSV, a database table, a tracing tool), and for an existing `evals/` folder.
+Search the working directory for the agent (prompts, tool definitions, an API route, a config), for conversation logs or traces (JSONL, CSV, a database table, a tracing tool), and for an existing `evals/` folder.
 
-Then ask one round of questions, each with your recommended answer so "yes" accepts it:
+Done when you can name the agent you found (or "none") and where its conversations live (or "none").
+
+## 2. Show the PM the road
+
+Before any question, explain in plain words, in about 12 lines, using the agent you found (or the demo):
+
+- **What an eval is:** a test you can run again and again that says whether the agent did its job, judged against a bar the PM writes. Give one example from their agent, phrased as a yes/no question ("did it apply the address change the customer asked for?").
+- **Why their bar comes first:** the model can find failures and build tests on its own, but then it grades itself. When the bar is the PM's, a pass means "correct for this business", and they can trust the result without checking every conversation.
+- **The road:** today, in two to three hours, they write what a good conversation is and review about 30 real conversations. Later, the skills turn the costliest failures into tests, compare versions and help them decide whether to launch.
+- **Who does what:** the PM decides what good means, which failures matter, and the launch call. The skills read, count, rank, build the tests, and check that the automatic judge agrees with the PM before anyone relies on it.
+- **What they get at the end of today:** each failure with how often it happens, what it costs, and what to do about it.
+
+Then ask whether anything is unclear, and answer it.
+
+Done when the PM confirms they know what they will decide and what they will get.
+
+## 3. Ask one round of questions
+
+Ask each with your recommended answer so "yes" accepts it:
 
 1. Which agents talk to users, and what job does each do for whom? (List every agent you found, including internal ones, and propose which are in scope.)
 2. Where are real conversations? (Propose the source you found. If you found no agent or no conversations, recommend the demo described below, and answer questions 1 and 3 for it: the store's agent, and "none".)
@@ -21,7 +39,7 @@ If they have no agent or no conversations yet, offer the demo: a WhatsApp sales 
 
 Done when every question has an answer or an explicit "unknown".
 
-## 2. Get the conversations into one format
+## 4. Get the conversations into one format
 
 Write `evals/data/traces.jsonl`, one conversation per line, in the format described in the demo README (`examples/whatsapp-store/README.md`, two folders up from this skill's directory): id, timestamps, the agent version that handled it, messages with roles, tool calls in the order they ran (with the time, or the message each follows, when the source has it), and an `outcome` object with whatever business signals exist (order created, escalated to a human, customer came back, refunded).
 
@@ -35,7 +53,7 @@ If the source does not record which agent version handled each conversation, tel
 
 Done when the file parses, holds at least 100 conversations or all that exist, has no unmasked phone numbers, and you can say how many came from each job and store.
 
-## 3. Write the config
+## 5. Write the config
 
 Create `evals/CONFIG.md`:
 
@@ -54,7 +72,7 @@ Create `evals/CONFIG.md`:
 
 If `CLAUDE.md` or `AGENTS.md` already exists, append a short `## Evals` section pointing to `evals/CONFIG.md`. Create neither file.
 
-## 4. Route
+## 6. Route
 
 Show the loop and point to the next skill:
 
