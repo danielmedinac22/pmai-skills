@@ -4,24 +4,37 @@
 
 Skills for product managers who ship AI agents.
 
-You already have an agent. You don't know how often it fails, which failures cost you users, or whether the change you shipped last week made it better. These skills take you from there to an eval system you trust and a launch call you can defend. The skills handle the mechanics (judges, rubrics, repeated runs). You make the product calls.
+You already have an agent, but you don't know how often it fails, which failures cost you users, or whether last week's change made it better. These skills take you from there to evals you can trust and a launch call you can defend. They handle the mechanics: judges, rubrics, repeated runs. You make the product calls.
 
 ## What you get
 
 | Skill | You decide | It hands you |
 |---|---|---|
-| `ask-pmai` | Which agent, where its conversations are, what metric it should move | `evals/CONFIG.md` and your conversations in one format |
+| `ask-pmai` | Which agent, where its conversations are, what metric it should move | `evals/CONFIG.md`, plus your conversations in one format |
 | `define-good` | What a good conversation is, job by job | `evals/GOOD.md` |
-| `agent-spec` | Autonomy, handoff, what it must never do, budget | `evals/agent-spec.md`, or a critique of yours |
+| `agent-spec` | Autonomy, handoff, what it must never do, budget | `evals/agent-spec.md`, or a critique of your spec |
 | `review-failures` | Pass or fail on about 30 real conversations, with a note on each | Failures ranked by what they cost the business |
-| `build-evals` | What to test; labels on ~40 conversations | Checks, a validated judge, and scripted cases |
-| `run-evals` | Which versions to compare | A one-page readout: better, worse, what to do next |
-| `ship-check` | Ship, ship limited, or hold | Evidence, a rollout plan with holdout, and rollback triggers. After launch: did it move the metric? |
+| `build-evals` | What to test, plus labels on about 40 conversations | Code checks, a judge validated against you, and scripted cases |
+| `run-evals` | Which versions to compare | A one-page readout: what got better, what got worse, what to do next |
+| `ship-check` | Ship, ship limited, or hold | Evidence, a rollout plan with a holdout, and rollback triggers. After launch, whether it moved the metric |
 | `audit-evals` | Nothing | A verdict on your existing evals and the five fixes that matter |
 
 Every finding reaches you in the same form:
 
-> **Promises delivery dates the carrier can't meet** - 9% of conversations - confirmed orders drop from 78% to 41% - needs an eval.
+> **Says "done" without doing it** - 10 of 66 conversations - orders ship wrong and come back - needs an eval.
+
+## Why not just ask Claude?
+
+You can, and it will find most of the failures. In our side-by-side tests, Claude with and without these skills found the same 9.5 of 10 planted failures. The difference shows up after that.
+
+Without the skills, the model sets the bar itself. It labels the conversations, calibrates its judge against its own labels, and picks launch thresholds after it has seen the results. With the skills, you set the bar:
+
+- You review conversations before you see the model's opinion.
+- You decide what "good" means.
+- Your labels validate the judge.
+- The launch bar is written before any numbers come in.
+
+What you get back is a decision, not a list: the share of conversations each failure affects, the money at stake, who owns the fix, and whether it ships.
 
 ## The loop
 
@@ -31,7 +44,7 @@ ask-pmai -> define-good -> review-failures -> build-evals -> run-evals -> ship-c
              agent-spec     fix the obvious                   bad conversations feed back
 ```
 
-On a first session, run `ask-pmai`, `define-good` and `review-failures`. That takes two to three hours, and the review usually pays for itself before any eval exists.
+For a first session, run `ask-pmai`, `define-good` and `review-failures`. It takes two to three hours, and the review usually pays for itself before any eval exists.
 
 ## Try it without your own agent
 
@@ -39,13 +52,13 @@ On a first session, run `ask-pmai`, `define-good` and `review-failures`. That ta
 
 ## Learn mode
 
-`ask-pmai` asks whether you want learn mode. With it on, each concept gets one plain sentence the first time it shows up, explained with your own data. You will not get lectures.
+`ask-pmai` asks whether you want learn mode. When it is on, each concept gets one plain sentence the first time it comes up, explained with your own data. There are no lectures.
 
 ## Install
 
 Pick one route. Installing both gives you every skill twice.
 
-**Claude Code (plugin):**
+**Claude Code plugin:**
 
 ```
 /plugin marketplace add danielmedinac22/pmai-skills
@@ -60,17 +73,24 @@ npx skills@latest add danielmedinac22/pmai-skills
 
 The `npx` route copies only the skills. To use the demo, clone the repo and point `ask-pmai` at `examples/whatsapp-store/`.
 
+Then say "I want to set up evals for my agent", or run `/pmai-skills:ask-pmai`. The checks the skills write are small Python scripts, so you need Python 3.
+
 ## Where it comes from
 
-The method was built while evaluating a production reconciliation agent against Claude Code and Codex on the same jobs, and refined on a WhatsApp commerce agent. It borrows from:
+We built the method while evaluating a production reconciliation agent against Claude Code and Codex on the same jobs. We then tested it on a production WhatsApp commerce agent, and every round of testing changed the skills. It borrows from three places:
 
-- Harvey's LAB benchmark: atomic pass/fail criteria, all-pass grading, and two independent judges.
-- tau-bench: simulated users with hidden rules, and pass^k.
-- Hamel Husain and Shreya Shankar's error-analysis practice: read the data first, binary judges, and judges validated against a human.
+- **Harvey's LAB benchmark:** atomic pass/fail criteria, all-pass grading, and two independent judges.
+- **tau-bench:** simulated users with hidden rules, and judging an agent by whether it passes every run.
+- **Hamel Husain and Shreya Shankar's error analysis:** read the data first, use binary judges, and validate each judge against a human.
 
-What this repo adds is the PM side: tying each failure to the business metric it moves, launch gates with a holdout, and checking that eval scores actually predict outcomes.
+What this repo adds is the PM side:
 
-If you want deeper engineering tooling for judges and annotation, [ai-evals-course/evals-skills](https://github.com/ai-evals-course/evals-skills) complements these skills well.
+- each failure tied to the business metric it moves;
+- launch gates with a holdout;
+- human review that labels results instead of overwriting scores;
+- a check that eval scores actually predict outcomes.
+
+For deeper engineering tooling for judges and annotation, [ai-evals-course/evals-skills](https://github.com/ai-evals-course/evals-skills) pairs well with these skills.
 
 ## License
 

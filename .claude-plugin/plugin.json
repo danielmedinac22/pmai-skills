@@ -2,6 +2,12 @@
   "name": "pmai-skills",
   "version": "0.1.0",
   "description": "Skills for product managers who ship AI agents: define what good looks like, find the failures that cost you users, build evals without becoming an evals engineer, and decide whether to ship.",
+  "author": {
+    "name": "Daniel Medina",
+    "url": "https://github.com/danielmedinac22"
+  },
+  "homepage": "https://github.com/danielmedinac22/pmai-skills",
+  "repository": "https://github.com/danielmedinac22/pmai-skills",
   "license": "MIT",
   "keywords": [
     "product-management",
