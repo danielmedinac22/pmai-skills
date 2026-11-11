@@ -7,7 +7,7 @@ The team already has evals, in any shape: a spreadsheet, a promptfoo or Braintru
 
 ## 1. Find what exists
 
-Look through the repo and anything the PM points to. Collect:
+Look through the repo, including other branches, gitignored run outputs and one-off scripts, and anything the PM points to. If the product has several user-facing agents, audit each one and say which you graded. Collect:
 
 - **Test data:** cases, golden sets, synthetic data.
 - **Graders:** code assertions, judge prompts, human labels.
@@ -41,6 +41,7 @@ Setup in five lines: ...
 
 ## Scorecard
 | Area | Pass | Partial | Fail | Can't tell |
+|---|---|---|---|---|
 | Grounded in real failures | | | | |
 | Graders you can trust | | | | |
 | Cases that test the job | | | | |
@@ -49,6 +50,7 @@ Setup in five lines: ...
 
 ## All checks
 | # | Check | Result | Evidence |
+|---|---|---|---|
 ```
 
 Rank the "fix first" list by how much each gap could mislead a launch decision, not by how easy it is to fix. Keep it to five items or fewer. Point each fix to the skill in this repo that handles it:

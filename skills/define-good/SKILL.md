@@ -44,6 +44,7 @@ Owner: <name> · Updated: <date>
 
 ## Jobs, ranked
 | # | Job | Volume | Business metric | Agent job? |
+|---|---|---|---|---|
 
 ## <Job 1>
 - Good looks like: ...

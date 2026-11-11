@@ -9,7 +9,7 @@ The PM gets a readout in business terms. You run everything and keep a record th
 
 ## 1. Decide what this run answers
 
-Agree on one sentence: "Is version B better than A on <jobs>?" or "Did the new model break anything?". Name the **arms**, the versions being compared, and keep everything else equal: same cases, same simulated user, same graders, same model unless the model is what is being compared. Write down any difference you cannot remove.
+Agree on one sentence: "Is version B better than A on <jobs>?", "Did the new model break anything?", or on a first run "Where does the agent stand today?" (one version, and the readout becomes the baseline for the next run). Name the versions being compared and keep everything else equal: same cases, same simulated user, same graders, same model unless the model is what is being compared. Write down any difference you cannot remove.
 
 ## 2. Run the checks on conversations
 
@@ -17,7 +17,7 @@ Refresh `evals/data/traces.jsonl` with the command in the config. Run every chec
 
 ## 3. Run the cases
 
-Run the cases only if the config says how to talk to the agent. For each arm:
+Run the cases only if the config says how to talk to the agent. For each version:
 
 - Give each run its own clean environment: no leftover memory, files or accounts from earlier runs. Before you start, confirm that the agent cannot reach anything outside the case.
 - Play or dispatch the simulated user by the rules in the case's `simulated-user.md`.
@@ -37,17 +37,17 @@ Run the cases only if the config says how to talk to the agent. For each arm:
 | case | the case was ambiguous, wrong, or missing an answer | fix the case and bump its version |
 | harness | the runner, isolation or grader broke | fix it, then rerun |
 
-When the case and the harness are clean, do the **counting runs**: 3 to 5 runs per arm. A case's headline result is **passes every run** (pass^k), because a customer meets the agent many times and one bad run is the one they remember. Show "passed at least once" next to it.
+When the case and the harness are clean, do the **counting runs**: 3 to 5 runs per version. A case's headline result is **passes every run** (pass^k), because a customer meets the agent many times and one bad run is the one they remember. Show "passed at least once" next to it.
 
-If a case fails in every arm, suspect the case before the agent.
+If a case fails in every version, suspect the case before the agent. If a counting run shows a case or harness cause (a planted problem never came up, a scripted answer was missing, a grader broke), those runs do not count: fix the case, bump its version, and pilot again.
 
 ## 4. Grade and record
 
-Run the code graders, then the judges. Grade each task, take the all-pass, and compute pass^k per case. Save each run in `evals/runs/<date>-<arm>-k<n>/`:
+Run the code graders, then the judges. Grade each task, take the all-pass, and compute per case how many runs passed out of k. Save each run in `evals/runs/<date>-<version>-k<n>/`:
 
-- `run.json`: arm, model, case versions, grader versions, finished status per task, verdict per criterion with evidence, cost, time;
+- `run.json`: version, model, case versions, grader versions, finished status per task, verdict per criterion with evidence, cost, time;
 - the transcripts;
-- `log.md`, with unscripted questions, failures with their cause and owner, judge disagreements, and what the arm leaves behind that a team could keep using.
+- `log.md`, with unscripted questions, failures with their cause and owner, judge disagreements, and what the version leaves behind that a team could keep using.
 
 ## 5. Write the readout
 
@@ -57,6 +57,6 @@ Write `evals/readouts/<date>.md` using [READOUT.md](READOUT.md). Put the decisio
 
 Mark the result as not comparable when a case version changed between the runs you compare.
 
-In learn mode, explain pass^k in one sentence using the case that varied the most between runs.
+In learn mode, explain in one sentence why "passes every run" is the headline, using the case that varied the most between runs.
 
 Next: `ship-check` if a launch decision is pending, otherwise fix the top finding and run again.

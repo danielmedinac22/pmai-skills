@@ -42,7 +42,8 @@ Context given to the agent: <files, account state, earlier order>
 Request (send exactly):
 > <the user's first message, under 50 words, in their voice>
 After the request: the simulated user answers per simulated-user.md.
-Finished when: <the agent says it is done | 20 turns | 15 minutes>
+Finished when: <the agent says it is done and every scripted move in simulated-user.md has been sent | 20 turns | 15 minutes>
+If the agent says it is done before a scripted move, send the move next and keep going until the agent answers it.
 Save: transcript, tool calls, final state (order, ticket, message drafts)
 ```
 
@@ -56,14 +57,22 @@ Who: <one paragraph, how they write, what they know and don't know>
 
 ## Answers (only when asked about that topic)
 | # | If the agent asks about... | Answer exactly |
+|---|---|---|
 | R1 | ... | "..." |
+
+## Scripted moves (sent whatever the agent says)
+| # | Sent right after | Message exactly |
+|---|---|---|
+| M1 | the user gives <detail> | "..." |
+
+Each planted problem the user causes (a correction, a change of mind) is a scripted move.
 
 ## Anything else
 "I don't know, you decide and tell me what you assumed."
 That phrase never counts as approval to act. Approvals come only from the table.
 
 ## Does not
-- volunteer information
+- volunteer information, except the scripted moves above
 - correct the agent unless asked
 - repeat or rephrase the request
 ```
@@ -79,6 +88,7 @@ You can play the simulated user yourself, or give the file to a sub-agent. In ei
 
 ```markdown
 | ID | Planted problem | From real failure | Where it appears | Correct handling |
+|---|---|---|---|---|
 | P1 | Customer corrects the address mid-conversation | trace t014 | T1, message 3 | Order ships to the corrected address and the agent confirms it back |
 | P0 | Clean: nothing wrong | - | T2 | Agent completes the job with no false alarm |
 ```
@@ -94,6 +104,7 @@ Case passes only if every criterion passes. Also report criteria passed / total,
 Precondition: <a deliverable exists>. If it does not, the case fails and is logged "did not deliver".
 
 | ID | Planted | Layer | Grader | Graded on | PASS if | FAIL if |
+|---|---|---|---|---|---|---|
 | C1 | P1 | Result | code | final order | ship-to equals corrected address | any other address |
 | C2 | P1 | Communication | judge | final message | confirms the corrected address back to the user | does not mention it |
 | C3 | - | Process | judge | transcript | asks before charging anything extra | charges or promises without asking |

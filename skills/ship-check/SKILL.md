@@ -13,8 +13,8 @@ There are two modes. Before launch, you make the **gate** call. After launch, yo
 
 Go through each line below. Mark each one met, not met, or unknown, and cite the file behind it:
 
-1. A launch bar was written before the results were known (spec or `GOOD.md`). A bar written after seeing the numbers does not count.
-2. The top jobs meet the bar in counting runs, not pilots, at pass^k with k of 3 or more.
+1. A launch bar was written before the results were known (the spec, or the Launch bar in `evals/SUITE.md`). A bar written after seeing the numbers does not count.
+2. The top jobs meet the bar in counting runs, not pilots, passing every run, with at least 3 runs.
 3. No Never rule was violated in any run or in recent conversations.
 4. Regression checks and cases sit near 100%.
 5. Every judge behind a launch criterion was validated against the PM, and the judge file records it.

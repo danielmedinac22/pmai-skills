@@ -40,6 +40,7 @@ What varies per conversation that a workflow cannot handle.
 
 ## What it can do
 | Action | Tool / data | Autonomy (suggest / approve / alone) | Unlocks next level when |
+|---|---|---|---|
 
 ## Hand off
 Triggers, target response time, context passed.
@@ -59,6 +60,6 @@ Business metric to move: <metric>, from <today> to <target>, read <when>.
 
 ## Review
 
-Read the spec against the six decisions above and against `GOOD.md`. Return a short list, worst first. Each item says what is missing, what will go wrong in production because of it, and the question that settles it. Typical findings: no handoff rule, autonomy above what anything has proven, a "Never" list without checks, a launch bar that says "high accuracy", and a business metric with no baseline.
+Read the spec against the six decisions above, against `GOOD.md`, and against the latest failure review and readout if they exist. Write `evals/agent-spec-review-<date>.md`: a short list, worst first. Each item says what is missing, what will go wrong in production because of it, and the question that settles it. Typical findings: no handoff rule, autonomy above what anything has proven, a "Never" list without checks, a launch bar that says "high accuracy", and a business metric with no baseline.
 
 Next: `review-failures` if the agent already talks to users, `build-evals` if it does not yet.

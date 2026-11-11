@@ -32,14 +32,14 @@ Group the notes into failure modes. Name each mode by what happened and where ("
 
 If the last 10 conversations produced a new mode seen at least twice, sample 15 more (or all that remain, if fewer) and repeat steps 2 and 3, at most twice. Record modes seen only once as "seen once" and stop.
 
-Done when every failed conversation maps to exactly one primary mode and the PM accepts the names.
+Done when every failed conversation maps to one primary mode, with a secondary one noted when two failures stack (a wrong item that then gets no answer), and the PM accepts the names. Count secondary modes too: a failure that sits under several modes is often the biggest one.
 
 ## 4. Rank by business impact
 
 For each mode, compute from the full trace file, not just the sample (write a small script if needed):
 
-- **Frequency**: share of all conversations showing it. Use a keyword or tool-call pattern to estimate it, and say the estimate is rough.
-- **Outcome gap**: the business signal in conversations with the mode compared with those without it, within the same job (for example, returns 67% vs 24% in confirmation chats). Show the count. If fewer than 5 conversations have the mode, or the cost lands outside the conversation (a made-up fact that closes the sale, a complaint after delivery), write "not measurable here" and name where the cost shows up instead.
+- **Frequency**: share of conversations showing it. Use a keyword or tool-call pattern to estimate it, and say the estimate is rough. If the trace file over-samples trouble (see the sampling rule in `evals/data/README.md`), the share in the file is not the real rate: reweight by stratum or run the same pattern on the full source, and report both.
+- **Outcome gap**: the business signal in conversations with the mode compared with those without it, within the same job (for example, returns 67% vs 24% in confirmation chats). Show the count. Compare like with like: users who keep writing are more engaged than users who go silent, so compare within users who showed the same intent (for example, only buyers who said they still want the order). If the gap points the wrong way, suspect this before trusting it. If fewer than 5 conversations have the mode, or the cost lands outside the conversation (a made-up fact that closes the sale, a complaint after delivery), write "not measurable here" and name where the cost shows up instead.
 - **Severity**: `never` (violates a Never rule), `lost` (user leaves or the sale is lost), `cost` (refund, return, human time), or `annoying` (works out in the end).
 - **Money at stake per 1,000 conversations**: frequency × outcome gap × value of one outcome, only when all three are known. Otherwise leave it blank.
 
@@ -58,6 +58,7 @@ Then name each mode's owner (the agent's prompt or tools, the human team or oper
 Reviewed: <n> conversations by <PM> · Pass rate: <x>% in the random half, <y>% in the trouble half
 
 | Rank | Failure mode | % of conversations | Outcome gap (n) | Severity | Money at stake / 1k | Owner | Bucket |
+|---|---|---|---|---|---|---|---|
 
 ## <Mode>
 What happens: ... · Examples: <ids> · Business effect: ... · Suggested fix or eval: ...
