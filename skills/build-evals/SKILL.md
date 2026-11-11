@@ -25,16 +25,16 @@ Done when the PM approves the list.
 
 For each check, use the cheapest grader that works:
 
-1. **Code** when the failure is visible in the data: a tool was not called, a field is empty, a price differs from the catalog, a reply came too late. Write `evals/checks/<id>.py`, which reads `traces.jsonl` and prints pass, fail, not applicable or unknown per conversation, with a reason. Report failures over applicable conversations.
+1. **Code** when the failure is visible in the data: the order total differs from the agreed price, a field is empty, a customer message got no reply, a reply came too late. Write `evals/checks/<id>.py`, which reads `traces.jsonl` and prints pass, fail, not applicable or unknown per conversation, with a reason. Report failures over applicable conversations.
 2. **LLM judge** only when it takes judgment. Write `evals/checks/<id>.judge.md` following [JUDGE.md](JUDGE.md): one failure, a binary verdict, a written reason, and evidence quoted from the conversation.
 
-Validate every judge, and every code check that relies on a text pattern, against the PM before trusting it. Start with the failure review's labels: a keyword list that misses half the PM's failures measures the keywords, not the failure. For judges, follow [JUDGE.md](JUDGE.md): the PM labels at least 40 conversations, you measure how many real failures the judge catches and how many good conversations it wrongly flags, and you fix the judge until both are at least 90%. A judge that only agrees with another judge has not been validated.
+Validate every judge, and every code check that relies on a text pattern, against the PM before trusting it. Start with the failure review's labels: a keyword list that misses half the PM's failures measures the keywords, not the failure. For judges, follow [JUDGE.md](JUDGE.md): the PM labels at least 40 conversations, you measure how many real failures the judge catches and how many good conversations it wrongly flags, and you fix the judge until both are at least 90%. A judge that only agrees with another judge has not been validated. Then run each code check on conversations that were not used to write it. A keyword list tuned on the same conversations always looks perfect.
 
 Done when each check has run on the full trace file and reports a failure rate, and each judge's agreement with the PM is recorded in its file.
 
 ## 3. Build the cases
 
-If the config says there is no way to talk to the agent, tell the PM before building: the case can be written now, but it runs only once engineering provides a way to send the agent a test message and read back its reply and tool calls, without touching real customers. A stand-in agent tests the case, never their agent.
+If the config says there is no way to talk to the agent, tell the PM before building: the case can be written now, but it runs only once engineering provides a way to send the agent a test message and read back its reply and tool calls, without touching real customers. A stand-in agent tests the case, never their agent. Their agent means their prompt, settings, model and reply parsing. A wrapper that calls those production functions with every side effect stubbed counts. `run-evals` checks that the channel is safe.
 
 Build each case as a folder under `evals/cases/<case-id>/`, using the layout and templates in [CASES.md](CASES.md). In short:
 
@@ -51,6 +51,7 @@ Before the first run, check that the case itself is sound:
 - The expected result passes the rubric.
 - An empty reply fails it.
 - The PM and the judge grade the pilot independently, and every criterion they disagree on is rewritten before the counting runs.
+- Every promise or claim the agent made in the pilot is graded by some criterion. Agreement between the PM and the judge only checks the criteria you already have.
 
 Done when every case passes those three tests.
 
@@ -63,7 +64,7 @@ Tag each check and case as one of:
 
 A capability case that passes in every run for two cycles becomes a regression case.
 
-Write `evals/SUITE.md`, with one line per check or case: id, what it protects in business terms, type, grader (code or judge), validation result, and owner. End it with a **Launch bar** agreed with the PM before any run: which cases must pass every run, which check rates must stay under what, and zero Never violations. `ship-check` grades against it.
+Write `evals/SUITE.md`, with one line per check or case: id, what it protects in business terms, type, grader (code or judge), validation result (or "unvalidated"), and owner. End it with a **Launch bar** agreed with the PM before any run: which cases must pass every run, which check rates must stay under what, and zero Never violations. Copy the spec's draft bar if one exists. The Launch bar may rest only on code checks and validated judges. `ship-check` grades against it.
 
 In learn mode, end by explaining the two kinds of eval in two sentences, using one of their own checks and one of their own cases as examples.
 

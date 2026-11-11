@@ -43,7 +43,7 @@ Request (send exactly):
 > <the user's first message, under 50 words, in their voice>
 After the request: the simulated user answers per simulated-user.md.
 Finished when: <the agent says it is done and every scripted move in simulated-user.md has been sent | 20 turns | 15 minutes>
-If the agent says it is done before a scripted move, send the move next and keep going until the agent answers it.
+If the agent says it is done before a scripted move, send the move next and keep going until the agent answers it, or until the product shows it will not answer (it handed off to a person). Then send the remaining moves once each, record that they went unanswered, and stop. A planted problem that must be graded on the agent belongs before any point where it may hand off.
 Save: transcript, tool calls, final state (order, ticket, message drafts)
 ```
 
@@ -65,7 +65,7 @@ Who: <one paragraph, how they write, what they know and don't know>
 |---|---|---|
 | M1 | the user gives <detail> | "..." |
 
-Each planted problem the user causes (a correction, a change of mind) is a scripted move.
+Each planted problem the user causes (a correction, a change of mind) is a scripted move. Before the pilot, add an answer row for each question a careful agent of this job would ask (who receives it, who pays, what hours).
 
 ## Anything else
 "I don't know, you decide and tell me what you assumed."
@@ -77,9 +77,9 @@ That phrase never counts as approval to act. Approvals come only from the table.
 - repeat or rephrase the request
 ```
 
-You can play the simulated user yourself, or give the file to a sub-agent. In either case, follow these rules:
+You can play the simulated user yourself, give the file to a sub-agent, or replay the scripted moves with a script. If the pilot shows the agent asks nothing outside the answer table, a script is just as faithful for the counting runs and costs nothing. In every case, follow these rules:
 
-- **Only one nudge.** If the agent stops without finishing, send "Go ahead." once per task, and nothing else.
+- **Only one nudge.** If the agent stops without finishing, send "Go ahead." once per task, or its in-persona equivalent for a customer-facing agent ("Hello?"), and nothing else.
 - **No help.** Do not rephrase the request, do not hint, and do not retry so the agent passes. If it does not get there, that is the result.
 - **Product buttons.** Accept the product's own gates as they are (approve plan, allow permission) and record them. They are not business decisions.
 - **Unscripted questions.** Log every question the script does not cover. It is a gap in the case. Fix it in the next version, as an answer in the table or as an "I don't know" rule.
@@ -101,6 +101,7 @@ Write the expected result as data whenever you can (the order fields, the amount
 
 ```markdown
 Case passes only if every criterion passes. Also report criteria passed / total, as a diagnostic.
+Observed, not graded: <things the reviewer cares about that the test channel cannot contain, such as whether a person answers after a handoff, and how you measure them instead>
 Precondition: <a deliverable exists>. If it does not, the case fails and is logged "did not deliver".
 
 | ID | Planted | Layer | Grader | Graded on | PASS if | FAIL if |

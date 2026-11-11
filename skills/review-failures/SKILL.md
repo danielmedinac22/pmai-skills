@@ -20,7 +20,7 @@ Show one conversation at a time, condensed: the customer's goal, the messages, t
 - **Pass or fail** against the bar in `GOOD.md`.
 - **A free note** on the first thing that went wrong, in their own words ("told her it ships tomorrow, the store only ships Mondays"). One note per conversation is enough.
 
-Show none of your own opinions until the PM has answered, because their unprimed notes are the point. For more than 20 conversations, offer the offline route first: write `evals/failures/<date>-review.csv` (id, summary, pass_fail, note) and wait for it.
+Show none of your own opinions until the PM has answered, because their unprimed notes are the point. For more than 20 conversations, offer the offline route first: write `evals/failures/<date>-review.md` with each conversation in full (messages, the tool calls that matter, outcome) and `evals/failures/<date>-review.csv` (id, pass_fail, note) for the answers, and wait for it.
 
 In learn mode, after the fifth conversation explain in one sentence why the PM writes the notes: the failure categories have to come from what actually happens, and the person who owns the bar is the only one who can spot a quietly wrong answer.
 
@@ -41,7 +41,7 @@ For each mode, compute from the full trace file, not just the sample (write a sm
 - **Frequency**: share of conversations showing it. Use a keyword or tool-call pattern to estimate it, and say the estimate is rough. If the trace file over-samples trouble (see the sampling rule in `evals/data/README.md`), the share in the file is not the real rate: reweight by stratum or run the same pattern on the full source, and report both.
 - **Outcome gap**: the business signal in conversations with the mode compared with those without it, within the same job (for example, returns 67% vs 24% in confirmation chats). Show the count. Compare like with like: users who keep writing are more engaged than users who go silent, so compare within users who showed the same intent (for example, only buyers who said they still want the order). If the gap points the wrong way, suspect this before trusting it. If fewer than 5 conversations have the mode, or the cost lands outside the conversation (a made-up fact that closes the sale, a complaint after delivery), write "not measurable here" and name where the cost shows up instead.
 - **Severity**: `never` (violates a Never rule), `lost` (user leaves or the sale is lost), `cost` (refund, return, human time), or `annoying` (works out in the end).
-- **Money at stake per 1,000 conversations**: frequency × outcome gap × value of one outcome, only when all three are known. Otherwise leave it blank.
+- **Money at stake per 1,000 conversations**: frequency × outcome gap × value of one outcome, only when all three are known. If the file over-samples trouble, its rate is not a known frequency: compute with it anyway and label the result "upper bound". Otherwise leave it blank.
 
 Propose a ranking from these columns and let the PM reorder it. Their reasons for reordering belong in the review.
 

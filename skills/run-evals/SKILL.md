@@ -13,16 +13,17 @@ Agree on one sentence: "Is version B better than A on <jobs>?", "Did the new mod
 
 ## 2. Run the checks on conversations
 
-Refresh `evals/data/traces.jsonl` with the command in the config. Run every check on the conversations since the last run, and also on the previous period for comparison. This needs no live agent and is the cheapest signal, so do it on every run.
+Refresh `evals/data/traces.jsonl` with the command in the config. Run every check on the conversations since the last run, and on the previous period for comparison. Split by agent version when the traces record it. If the two periods hold a different mix of jobs, compare within each job. On a first run, report each rate once and mark it "baseline". This needs no live agent and is the cheapest signal, so do it on every run.
 
 ## 3. Run the cases
 
-Run the cases only if the config says how to talk to the agent. For each version:
+Run the cases only through a channel to their real agent that is confirmed safe, as [CHANNEL.md](CHANNEL.md) describes. If the config says there is none, tell the PM the cases did not run, repeat the ask for engineering, and list it under "Not the agent's fault" in the readout. For each version:
 
-- Give each run its own clean environment: no leftover memory, files or accounts from earlier runs. Before you start, confirm that the agent cannot reach anything outside the case.
+- Give each run its own clean environment: no leftover memory, files or accounts from earlier runs.
 - Play or dispatch the simulated user by the rules in the case's `simulated-user.md`.
 - Record a `finished` status for each task. It is one of:
   - `delivered`: it said it was done;
+  - `handed off`: it passed the conversation to a person and the product stops it from answering;
   - `waiting`: it stopped with no question and no result, after one "Go ahead.";
   - `error`;
   - `out of context`;
@@ -37,17 +38,19 @@ Run the cases only if the config says how to talk to the agent. For each version
 | case | the case was ambiguous, wrong, or missing an answer | fix the case and bump its version |
 | harness | the runner, isolation or grader broke | fix it, then rerun |
 
-When the case and the harness are clean, do the **counting runs**: 3 to 5 runs per version. A case's headline result is **passes every run** (pass^k), because a customer meets the agent many times and one bad run is the one they remember. Show "passed at least once" next to it.
+When the case and the harness are clean, do the **counting runs**: 3 to 5 runs per version. A case's headline result is **passes every run**, because a customer meets the agent many times and one bad run is the one they remember. Show "passed at least once" next to it.
 
-If a case fails in every version, suspect the case before the agent. If a counting run shows a case or harness cause (a planted problem never came up, a scripted answer was missing, a grader broke), those runs do not count: fix the case, bump its version, and pilot again.
+If a case fails in every version, suspect the case before the agent. If a counting run shows a case or harness cause (a planted problem never came up, a scripted answer was missing, a grader broke), those runs do not count: fix the case, bump its version, and pilot again. A case found wrong after grading goes into quarantine, as [GRADING.md](GRADING.md) describes.
 
 ## 4. Grade and record
 
 Run the code graders, then the judges. Grade each task, take the all-pass, and compute per case how many runs passed out of k. Save each run in `evals/runs/<date>-<version>-k<n>/`:
 
 - `run.json`: version, model, case versions, grader versions, finished status per task, verdict per criterion with evidence, cost, time;
-- the transcripts;
+- the transcripts, tool calls, final state and deliverables, so the run can be re-graded without running the agent again;
 - `log.md`, with unscripted questions, failures with their cause and owner, judge disagreements, and what the version leaves behind that a team could keep using.
+
+When the PM disagrees with a grade, their reading becomes a label next to the verdict, never a change to it. The readout shows the raw result and the result with labels side by side. [GRADING.md](GRADING.md) covers labels, re-grading, quarantine, and which graders may block a launch.
 
 ## 5. Write the readout
 

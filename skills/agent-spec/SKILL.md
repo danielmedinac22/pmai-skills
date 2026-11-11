@@ -52,7 +52,7 @@ Triggers, target response time, context passed.
 Cost per resolved conversation: ... · Response time: ...
 
 ## How we know it works
-Jobs and bars: see evals/GOOD.md. Launch bar: <job> passes <rate> over <k> runs; no "Never" violation.
+Jobs and bars: see evals/GOOD.md. Launch bar (draft; `build-evals` copies it into evals/SUITE.md, which is the one `ship-check` grades): <job> passes every run over <k> runs; no "Never" violation.
 Business metric to move: <metric>, from <today> to <target>, read <when>.
 
 ## Open questions

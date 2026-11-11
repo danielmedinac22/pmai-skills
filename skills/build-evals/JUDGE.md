@@ -51,7 +51,7 @@ Run the judge at temperature 0 when the model allows it. Run it in a session sep
 
 A judge is only as good as its agreement with the person who owns the bar.
 
-1. **The PM labels conversations.** Aim for at least 40, with at least 15 failures. The PM labels each conversation for this criterion only. The failure review's verdict is a starting point, not the label, because a conversation can fail for another reason and pass this one. Add conversations the check flagged until both sides are covered. The PM labels them before seeing any judge output. If fewer than 15 real failures exist, say so, report the catch rate as "x of n", and keep the judge out of launch calls until n reaches 15.
+1. **The PM labels conversations.** Aim for at least 40, with at least 15 failures left in the test set after the split. The PM labels each conversation for this criterion only. The failure review's verdict is a starting point, not the label, because a conversation can fail for another reason and pass this one. Add conversations the check flagged until both sides are covered. The PM labels them before seeing any judge output. If the test set holds fewer than 15 real failures, say so, report the catch rate as "x of n", and keep the judge out of launch calls until n reaches 15.
 2. **Split the labels.** About 20% are training examples you may put in the prompt. The rest is the test set. Test conversations never go into the prompt.
 3. **Run the judge on the test set and measure two numbers:**
    - **Catch rate** (true positive rate): of the conversations the PM marked FAIL, the share the judge also failed.
@@ -60,6 +60,10 @@ A judge is only as good as its agreement with the person who owns the bar.
 5. **Record the result** at the top of the judge file: date, number of labels, catch rate, clean rate, and the model.
 
 Do not report plain accuracy. If 90% of conversations pass, a judge that always says PASS scores 90% while catching nothing.
+
+## Comparing judges
+
+To learn which of two judges is better, label a blind random sample for each criterion, including conversations where the judges agree. Counting which judge the PM sided with on disagreements says little, because the agreements have no label.
 
 ## Optional second judge
 

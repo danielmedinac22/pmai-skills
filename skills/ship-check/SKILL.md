@@ -13,14 +13,16 @@ There are two modes. Before launch, you make the **gate** call. After launch, yo
 
 Go through each line below. Mark each one met, not met, or unknown, and cite the file behind it:
 
-1. A launch bar was written before the results were known (the spec, or the Launch bar in `evals/SUITE.md`). A bar written after seeing the numbers does not count.
+1. A launch bar was written before the results were known: the Launch bar in `evals/SUITE.md`, or the spec's if there is no suite. If both exist and differ, mark this line not met until the PM picks one. A bar written after seeing the numbers does not count.
 2. The top jobs meet the bar in counting runs, not pilots, passing every run, with at least 3 runs.
 3. No Never rule was violated in any run or in recent conversations.
 4. Regression checks and cases sit near 100%.
-5. Every judge behind a launch criterion was validated against the PM, and the judge file records it.
-6. The held-out variant was run and matches the tuned cases.
-7. Cost per resolved conversation and response time are within budget.
-8. Nothing on the readout's "not the agent's fault" list hides a platform failure that users will hit.
+5. The Launch bar rests only on code checks and on judges validated against the PM (catch and clean rates of at least 90%, with at least 15 real failures in the test set). An unvalidated judge can inform the call but cannot block or clear it.
+6. The case results come from the real agent, not a stand-in, and the readout reports raw results next to any PM-labeled ones.
+7. The held-out variant was run and matches the tuned cases.
+8. Cost per resolved conversation and response time are within budget.
+9. Nothing on the readout's "not the agent's fault" list hides a platform failure that users will hit.
+10. Production traces record which agent version handled each conversation, so the launch can be measured afterwards.
 
 ### 2. Make the call
 

@@ -6,6 +6,7 @@ Keep it to one page. The PM should be able to forward it as-is.
 # Eval readout - <date>
 Question: <the one sentence this run answers>
 Versions: <A> vs <B> · Runs: k=<n> · Case versions: <ids@versions> · Comparable with last readout: yes | no (<why>)
+Agent tested: real | STAND-IN (says nothing about the real agent) · First run: yes (baseline) | no
 
 ## Decision
 <Ship B | Keep A | Fix X first | Not enough evidence: run Y>, because <one sentence>.
@@ -36,6 +37,8 @@ Failures caused by the case, the harness, or the platform, and who owns each.
 
 Rules:
 
-- Show a rate together with its count: "3/5 runs" or "9% of 1,240 conversations". A percentage on its own hides how thin the evidence is.
+- Show a rate together with its count: "3/5 runs" or "9% of 1,240 conversations". A percentage on its own hides how thin the evidence is. When the count is under about 100, add a rough range ("9%, likely 5-15%").
+- When the PM labeled any verdict, show both numbers: "32/51 criteria (33/51 with PM labels)". Never show only the corrected one.
+- Mark lines that rest on an unvalidated judge as "unvalidated".
 - When the difference between versions is within one run out of five, call it a tie.
 - Put the criteria-passed rate in an appendix, not in the table. It helps diagnose a failure, but it does not rank versions.

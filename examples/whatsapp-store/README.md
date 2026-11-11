@@ -56,6 +56,7 @@ These figures come from real aggregate data for this kind of operation. They wer
 {
   "id": "t001",
   "started_at": "2026-10-03T14:22:00-05:00",
+  "agent_version": "lina-2026.10",
   "channel": "whatsapp",
   "customer": {"segment": "new | returning"},
   "job": "product_question | place_order | confirm_order | delivery_issue | post_sale | other",
@@ -73,6 +74,7 @@ These figures come from real aggregate data for this kind of operation. They wer
 }
 ```
 
+- **`agent_version`:** which version of Lina handled the conversation. All 66 are the same version here. Keep this field in your own logs: without it, no launch can be measured.
 - **Roles:** `agent` is Lina, including the automated messages she sends (confirmation requests, "out for delivery" and delivery-issue notices). `human_agent` is a person from the store's team. `system` is a platform or carrier event the customer never sees, such as `[carrier] Delivery attempt failed`.
 - **`tool_calls`** lists what Lina called and what came back, in order. Compare what she *said* with what the tools *returned* and what she *did*. A promise with no matching tool call is a clue.
 - **`outcome`:**

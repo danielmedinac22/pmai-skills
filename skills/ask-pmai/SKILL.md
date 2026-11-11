@@ -17,19 +17,21 @@ Then ask one round of questions, each with your recommended answer so "yes" acce
 4. Which one or two business metrics should this agent move? (Propose from what the product does: resolution without a human, conversion, retention, refunds or returns, support tickets.)
 5. Learn mode on? With it on, every concept gets one plain sentence the first time it shows up, tied to their data.
 
-If they have no agent or no conversations yet, offer the demo: a WhatsApp sales and support agent for a cash-on-delivery store, with real anonymized conversations. It ships in this repo at `examples/whatsapp-store/` (two folders up from this skill's directory). Copy `traces.jsonl` and `README.md` into `evals/data/` and leave `.answer-key/` where it is.
+If they have no agent or no conversations yet, offer the demo: a WhatsApp sales and support agent for a cash-on-delivery store, with real anonymized conversations. It ships in this repo at `examples/whatsapp-store/` (two folders up from this skill's directory). Copy `traces.jsonl` into `evals/data/` and `README.md` into `evals/data/DEMO.md`, and leave `.answer-key/` where it is. The demo's sampling rule: all 66 conversations, chosen to show failures, so shares in the file over-state real rates.
 
 Done when every question has an answer or an explicit "unknown".
 
 ## 2. Get the conversations into one format
 
-Write `evals/data/traces.jsonl`, one conversation per line, in the format described in `examples/whatsapp-store/README.md`: id, timestamps, messages with roles, tool calls each with the time it ran (or the message it follows), and an `outcome` object with whatever business signals exist (order created, escalated to a human, customer came back, refunded).
+Write `evals/data/traces.jsonl`, one conversation per line, in the format described in the demo README (`examples/whatsapp-store/README.md`, two folders up from this skill's directory): id, timestamps, the agent version that handled it, messages with roles, tool calls in the order they ran (with the time, or the message each follows, when the source has it), and an `outcome` object with whatever business signals exist (order created, escalated to a human, customer came back, refunded).
 
 If the source is a database or an export, write a small script in `evals/data/` that produces the file, so it can be refreshed later. If the data is reachable only through a tool (an MCP server, a dashboard), save each result as-is under `evals/data/raw/`, write the script to normalize those files, and keep a length per row so a bad copy shows up.
 
 Pull at least 100 conversations, stratified by job (and by store or tenant if there are several), with a random component, plus up to 20 with negative feedback or a human handoff. Prefer conversations old enough for their outcome to be known. Write the sampling rule in `evals/data/README.md`: later skills need it to turn counts in the file into real rates.
 
 Mask phone numbers, emails, addresses and full names before anything is written, and keep raw unmasked data out of version control.
+
+If the source does not record which agent version handled each conversation, tell the PM: without it, no future launch can be measured. Make it the first ask for engineering.
 
 Done when the file parses, holds at least 100 conversations or all that exist, has no unmasked phone numbers, and you can say how many came from each job and store.
 
