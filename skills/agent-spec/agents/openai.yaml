@@ -1,0 +1,3 @@
+interface:
+  display_name: "Agent spec"
+  short_description: "Write or critique an agent spec from the PM side"

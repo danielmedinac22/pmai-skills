@@ -1,0 +1,3 @@
+interface:
+  display_name: "Build evals"
+  short_description: "Build checks, validated judges and scripted cases"

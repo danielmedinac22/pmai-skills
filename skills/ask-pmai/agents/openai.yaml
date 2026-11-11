@@ -1,0 +1,3 @@
+interface:
+  display_name: "Ask pmai"
+  short_description: "Set up evals for your agent and pick the next step"

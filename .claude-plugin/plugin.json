@@ -1,0 +1,24 @@
+{
+  "name": "pmai-skills",
+  "version": "0.1.0",
+  "description": "Skills for product managers who ship AI agents: define what good looks like, find the failures that cost you users, build evals without becoming an evals engineer, and decide whether to ship.",
+  "license": "MIT",
+  "keywords": [
+    "product-management",
+    "evals",
+    "ai-agents",
+    "error-analysis",
+    "llm-as-judge",
+    "skills"
+  ],
+  "skills": [
+    "./skills/ask-pmai",
+    "./skills/define-good",
+    "./skills/agent-spec",
+    "./skills/review-failures",
+    "./skills/build-evals",
+    "./skills/run-evals",
+    "./skills/ship-check",
+    "./skills/audit-evals"
+  ]
+}

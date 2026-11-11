@@ -1,0 +1,3 @@
+interface:
+  display_name: "Run evals"
+  short_description: "Run the suite and get a one-page readout"

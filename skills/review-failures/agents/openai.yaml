@@ -1,0 +1,3 @@
+interface:
+  display_name: "Review failures"
+  short_description: "Read real conversations and rank failures by business impact"

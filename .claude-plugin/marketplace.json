@@ -1,0 +1,16 @@
+{
+  "name": "pmai",
+  "owner": {
+    "name": "pmai"
+  },
+  "description": "Skills for product managers who ship AI agents, as an installable Claude Code plugin.",
+  "plugins": [
+    {
+      "name": "pmai-skills",
+      "source": "./",
+      "description": "Define what good looks like, review real failures by business impact, build and run evals, and make the ship call.",
+      "category": "productivity",
+      "keywords": ["product-management", "evals", "ai-agents"]
+    }
+  ]
+}

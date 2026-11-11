@@ -1,0 +1,3 @@
+interface:
+  display_name: "Audit evals"
+  short_description: "Grade an existing eval setup and list the fixes"

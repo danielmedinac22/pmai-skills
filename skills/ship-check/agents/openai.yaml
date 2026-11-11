@@ -1,0 +1,3 @@
+interface:
+  display_name: "Ship check"
+  short_description: "Make the launch call and check it landed"
