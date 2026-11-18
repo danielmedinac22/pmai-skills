@@ -1,6 +1,6 @@
 # Working on pmai-skills
 
-These are skills for product managers who ship AI agents. The reader is a PM: technical enough to run a script, but focused on users and the business. Every change should serve that reader.
+These are skills for product managers who build with AI: evals for the agents they ship, and a judged quality loop for anything else they make. The reader is a PM: technical enough to run a script, but focused on users and the business. Every change should serve that reader.
 
 ## Rules for skills
 

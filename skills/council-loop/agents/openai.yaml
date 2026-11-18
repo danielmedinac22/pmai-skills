@@ -1,0 +1,3 @@
+interface:
+  display_name: "Council loop"
+  short_description: "Set a bar, have three judges grade, iterate until it passes"

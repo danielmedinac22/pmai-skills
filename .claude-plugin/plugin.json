@@ -1,7 +1,7 @@
 {
   "name": "pmai-skills",
   "version": "0.1.0",
-  "description": "Skills for product managers who ship AI agents: define what good looks like, find the failures that cost you users, build evals without becoming an evals engineer, and decide whether to ship.",
+  "description": "Skills for product managers who build with AI: define what good looks like, find the failures that cost you users, build evals without becoming an evals engineer, decide whether to ship, and raise any piece of work to a bar you set.",
   "author": {
     "name": "Daniel Medina",
     "url": "https://github.com/danielmedinac22"
@@ -15,7 +15,9 @@
     "ai-agents",
     "error-analysis",
     "llm-as-judge",
-    "skills"
+    "skills",
+    "quality-bar",
+    "design-review"
   ],
   "skills": [
     "./skills/ask-pmai",
@@ -25,6 +27,7 @@
     "./skills/build-evals",
     "./skills/run-evals",
     "./skills/ship-check",
-    "./skills/audit-evals"
+    "./skills/audit-evals",
+    "./skills/council-loop"
   ]
 }
