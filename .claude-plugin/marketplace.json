@@ -4,12 +4,12 @@
     "name": "Daniel Medina",
     "url": "https://github.com/danielmedinac22"
   },
-  "description": "Skills for product managers who ship AI agents, as an installable Claude Code plugin.",
+  "description": "Skills for product managers who build with AI, as an installable Claude Code plugin.",
   "plugins": [
     {
       "name": "pmai-skills",
       "source": "./",
-      "description": "Define what good looks like, review real failures by business impact, build and run evals, and make the ship call.",
+      "description": "Define what good looks like, review real failures by business impact, build and run evals, make the ship call, and raise any piece of work to a bar you set.",
       "category": "productivity",
       "keywords": [
         "product-management",

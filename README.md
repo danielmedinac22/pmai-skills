@@ -2,9 +2,11 @@
 
 # pmai-skills
 
-Skills for product managers who ship AI agents.
+Skills for product managers who build with AI.
 
 You already have an agent, but you don't know how often it fails, which failures cost you users, or whether last week's change made it better. These skills take you from there to evals you can trust and a launch call you can defend. They handle the mechanics: judges, rubrics, repeated runs. You make the product calls.
+
+The same method works on anything you make. `council-loop` takes a prototype, a spec, a prompt or a deck, has you set the bar, and iterates until a council of independent judges scores every part above it.
 
 ## What you get
 
@@ -18,6 +20,7 @@ You already have an agent, but you don't know how often it fails, which failures
 | `run-evals` | Which versions to compare | A one-page readout: what got better, what got worse, what to do next |
 | `ship-check` | Ship, ship limited, or hold | Evidence, a rollout plan with a holdout, and rollback triggers. After launch, whether it moved the metric |
 | `audit-evals` | Nothing | A verdict on your existing evals and the five fixes that matter |
+| `council-loop` | What must not change, the references, and the bar | Your work raised until three independent judges score every part above the bar, plus a before-and-after report |
 
 Every finding reaches you in the same form:
 
@@ -46,11 +49,19 @@ ask-pmai -> define-good -> review-failures -> build-evals -> run-evals -> ship-c
 
 For a first session, run `ask-pmai`, `define-good` and `review-failures`. It takes two to three hours, and the review usually pays for itself before any eval exists.
 
+## Raise any piece of work to a bar
+
+`council-loop` is the eval method applied to a single deliverable. You give it an intent ("make this pixel perfect, keep the design system") or the work itself. It drafts the bar as three lenses: craft, fidelity to what must not change, and the standard of the best in the field. You approve the bar, and from then on it is frozen. Three fresh judges grade the original, the agent fixes, and fresh judges grade again until every score clears the bar or the loop stops to ask you.
+
+On a 29-screen banking prototype, it passed in round 3 with the lowest score at 9.2, with every text, flow and design token unchanged. Between rounds 1 and 2, craft and standard rose while the fidelity judge's lowest score fell from 8.7 to 8.6, so the loop kept going until all three cleared the bar.
+
 ## Try it without your own agent
 
 `examples/whatsapp-store/` holds 66 anonymized conversations from a real WhatsApp sales and support agent for a cash-on-delivery store. Run `ask-pmai` and choose the demo. When you finish `review-failures`, compare your failure list with the answer key.
 
 ## Learn mode
+
+`ask-pmai` always starts by showing you the road, with your own agent as the example: what an eval is, what you will decide, what you will get, and how you will know the result is correct.
 
 `ask-pmai` asks whether you want learn mode. When it is on, each concept gets one plain sentence the first time it comes up, explained with your own data. There are no lectures.
 
