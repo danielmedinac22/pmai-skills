@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>eval loop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f2ec; --ink: #1d1d1b; --muted: #8a877f; --line: #c9c5bb; --accent: #c2410c;
+    --ease-out: cubic-bezier(.16, 1, .3, 1);
+    --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+    --loop: 5.2s;   /* first pass of the loop */
+    --period: 1.6s; /* one pass */
+  }
+  html, body { margin: 0; background: var(--bg); }
+  #stage { position: relative; width: 1080px; height: 1350px; overflow: hidden;
+           background: var(--bg); color: var(--ink); font-family: Inter, system-ui, sans-serif; }
+  #stage svg { position: absolute; inset: 0; overflow: visible; }
+  #stage svg * { transform-box: fill-box; transform-origin: center; }
+
+  .draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw var(--dur, .8s) var(--ease-in-out) var(--at, 0s) both; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  .fade { opacity: 0; animation: fade var(--dur, .5s) var(--ease-out) var(--at, 0s) both; }
+  @keyframes fade { to { opacity: 1; } }
+  .rise { opacity: 0; transform: translateY(14px); animation: rise var(--dur, .6s) var(--ease-out) var(--at, 0s) both; }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+  .pop { opacity: 0; transform: scale(.92); animation: pop var(--dur, .45s) var(--ease-out) var(--at, 0s) both; }
+  @keyframes pop { to { opacity: 1; transform: none; } }
+
+  /* Loop beats: three passes, one per release. */
+  .flash { opacity: 0; animation: flash var(--period) linear var(--at) 3 both; }
+  @keyframes flash { 0% { opacity: 0; } 6% { opacity: 1; } 28% { opacity: 0; } 100% { opacity: 0; } }
+
+  #pulse { position: absolute; left: 0; top: 0; width: 22px; height: 22px; border-radius: 50%;
+           background: var(--accent); box-shadow: 0 0 0 6px rgba(194, 65, 12, .18);
+           offset-path: path("M894 640 V690 H186 V640"); offset-rotate: 0deg;
+           opacity: 0; animation: travel var(--period) linear var(--loop) 3 both; }
+  @keyframes travel {
+    0%, 54% { offset-distance: 0%; opacity: 0; }
+    57% { offset-distance: 0%; opacity: 1; animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+    90% { offset-distance: 100%; opacity: 1; }
+    100% { offset-distance: 100%; opacity: 0; }
+  }
+
+  h1 { position: absolute; left: 96px; top: 96px; margin: 0; font-size: 76px; line-height: 1.05;
+       font-weight: 800; letter-spacing: -.025em; }
+  .label { font-size: 27px; font-weight: 700; fill: var(--ink); }
+  .sub { font-size: 21px; font-weight: 500; fill: var(--muted); }
+  .accent-text { font-size: 23px; font-weight: 700; fill: var(--accent); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <h1>Review the failures.<br>Then build the eval.</h1>
+
+  <svg width="1080" height="1350" viewBox="0 0 1080 1350">
+    <defs>
+      <mask id="feedback-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="1080" height="1350">
+        <path class="draw" style="--at:2.8s;--dur:1s" pathLength="1" d="M894 640 V690 H186 V640"
+              fill="none" stroke="white" stroke-width="12"/>
+      </mask>
+    </defs>
+
+    <!-- Four steps. Each node: box, icon, label, sublabel. -->
+    <g class="pop" style="--at:.3s">
+      <rect x="111" y="400" width="150" height="130" rx="18" fill="#fbfaf6" stroke="var(--ink)" stroke-width="4"/>
+      <path d="M146 438 h50 a10 10 0 0 1 10 10 v22 a10 10 0 0 1 -10 10 h-30 l-14 12 v-12 h-6 a10 10 0 0 1 -10 -10 v-22 a10 10 0 0 1 10 -10z"
+            fill="none" stroke="var(--ink)" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M216 458 h10 a10 10 0 0 1 10 10 v20 a10 10 0 0 1 -10 10 h-4 v12 l-14 -12 h-24 a10 10 0 0 1 -10 -10 v-2"
+            fill="none" stroke="var(--accent)" stroke-width="4" stroke-linejoin="round"/>
+    </g>
+    <text class="rise label" style="--at:.55s" x="186" y="580" text-anchor="middle">Conversations</text>
+    <text class="rise sub" style="--at:.65s" x="186" y="612" text-anchor="middle">real ones</text>
+
+    <path class="draw" style="--at:.85s;--dur:.35s" pathLength="1" d="M273 465 H335" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
+    <path class="fade" style="--at:1.15s;--dur:.2s" d="M325 455 L337 465 L325 475" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <g class="pop" style="--at:.9s">
+      <rect x="347" y="400" width="150" height="130" rx="18" fill="#fbfaf6" stroke="var(--ink)" stroke-width="4"/>
+      <path d="M392 446 l7 7 l13 -14 M392 478 l7 7 l13 -14" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M393 494 l18 18 M411 494 l-18 18" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/>
+      <path d="M424 446 h30 M424 478 h30 M424 503 h30" fill="none" stroke="var(--line)" stroke-width="4" stroke-linecap="round"/>
+    </g>
+    <text class="rise label" style="--at:1.15s" x="422" y="580" text-anchor="middle">Review</text>
+    <text class="rise sub" style="--at:1.25s" x="422" y="612" text-anchor="middle">you judge 30</text>
+
+    <path class="draw" style="--at:1.45s;--dur:.35s" pathLength="1" d="M509 465 H571" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
+    <path class="fade" style="--at:1.75s;--dur:.2s" d="M561 455 L573 465 L561 475" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <g class="pop" style="--at:1.5s">
+      <rect x="583" y="400" width="150" height="130" rx="18" fill="#fbfaf6" stroke="var(--ink)" stroke-width="4"/>
+      <path d="M622 505 h72" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
+      <rect x="630" y="470" width="14" height="35" rx="3" fill="var(--ink)"/>
+      <rect x="651" y="452" width="14" height="53" rx="3" fill="var(--ink)"/>
+      <rect x="672" y="436" width="14" height="69" rx="3" fill="var(--accent)"/>
+    </g>
+    <text class="rise label" style="--at:1.75s" x="658" y="580" text-anchor="middle">Evals</text>
+    <text class="rise sub" style="--at:1.85s" x="658" y="612" text-anchor="middle">checks + a judge</text>
+
+    <path class="draw" style="--at:2.05s;--dur:.35s" pathLength="1" d="M745 465 H807" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
+    <path class="fade" style="--at:2.35s;--dur:.2s" d="M797 455 L809 465 L797 475" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <g class="pop" style="--at:2.1s">
+      <rect x="819" y="400" width="150" height="130" rx="18" fill="#fbfaf6" stroke="var(--ink)" stroke-width="4"/>
+      <path d="M884 446 h-26 v60 h60 v-26" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M884 482 L926 440 M902 440 h24 v24" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <text class="rise label" style="--at:2.35s" x="894" y="580" text-anchor="middle">Ship</text>
+    <text class="rise sub" style="--at:2.45s" x="894" y="612" text-anchor="middle">with a holdout</text>
+
+    <!-- Feedback: dashed, so it draws through a mask. -->
+    <path d="M894 640 V690 H186 V640" fill="none" stroke="var(--accent)" stroke-width="4"
+          stroke-dasharray="12 10" mask="url(#feedback-mask)"/>
+    <path class="fade" style="--at:3.7s;--dur:.2s" d="M176 652 L186 640 L196 652" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text class="fade accent-text" style="--at:3.4s" x="540" y="728" text-anchor="middle">bad conversations feed back</text>
+
+    <!-- Each pass lights the steps in order. -->
+    <g fill="none" stroke="var(--accent)" stroke-width="6">
+      <rect class="flash" style="--at:calc(var(--loop) + 0s)" x="111" y="400" width="150" height="130" rx="18"/>
+      <rect class="flash" style="--at:calc(var(--loop) + .22s)" x="347" y="400" width="150" height="130" rx="18"/>
+      <rect class="flash" style="--at:calc(var(--loop) + .44s)" x="583" y="400" width="150" height="130" rx="18"/>
+      <rect class="flash" style="--at:calc(var(--loop) + .66s)" x="819" y="400" width="150" height="130" rx="18"/>
+    </g>
+
+    <!-- Chart: the effect of each pass. -->
+    <text class="rise" style="--at:3.9s" x="96" y="845" font-size="34" font-weight="800" fill="var(--ink)">Failure rate</text>
+    <path class="draw" style="--at:4.1s;--dur:.6s" pathLength="1" d="M140 880 V1170 H1010" fill="none" stroke="var(--line)" stroke-width="3"/>
+    <g class="fade sub" style="--at:4.5s" text-anchor="middle">
+      <text x="230" y="1210">v1</text><text x="490" y="1210">v2</text>
+      <text x="750" y="1210">v3</text><text x="990" y="1210">v4</text>
+      <text x="575" y="1262">releases</text>
+    </g>
+    <circle class="pop" style="--at:4.7s" cx="230" cy="915" r="10" fill="var(--accent)"/>
+
+    <path class="draw" style="--at:calc(var(--loop) + 1.35s);--dur:.45s" pathLength="1" d="M230 915 L490 1030" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+    <circle class="pop" style="--at:calc(var(--loop) + 1.75s)" cx="490" cy="1030" r="10" fill="var(--accent)"/>
+    <path class="draw" style="--at:calc(var(--loop) + var(--period) + 1.35s);--dur:.45s" pathLength="1" d="M490 1030 L750 1092" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+    <circle class="pop" style="--at:calc(var(--loop) + var(--period) + 1.75s)" cx="750" cy="1092" r="10" fill="var(--accent)"/>
+    <path class="draw" style="--at:calc(var(--loop) + 2 * var(--period) + 1.35s);--dur:.45s" pathLength="1" d="M750 1092 L990 1122" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+    <circle class="pop" style="--at:calc(var(--loop) + 2 * var(--period) + 1.75s)" cx="990" cy="1122" r="10" fill="var(--accent)"/>
+
+    <text class="rise accent-text" style="--at:10.3s" x="990" y="935" text-anchor="end">fewer failures every loop</text>
+  </svg>
+
+  <div id="pulse"></div>
+</div>
+<script>
+  window.STAGE = { width: 1080, height: 1350, duration: 13 };
+</script>
+</body>
+</html>
