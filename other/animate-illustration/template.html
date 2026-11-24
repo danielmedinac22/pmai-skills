@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>scene</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* Palette: replace with colors sampled from the original illustration. */
+  :root {
+    --bg: #f4f2ec;
+    --ink: #1d1d1b;
+    --muted: #8a877f;
+    --line: #c9c5bb;
+    --accent: #c2410c;
+    --ease-out: cubic-bezier(.16, 1, .3, 1);
+    --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+  }
+  html, body { margin: 0; background: var(--bg); }
+  #stage {
+    position: relative; width: 1080px; height: 1350px; overflow: hidden;
+    background: var(--bg); color: var(--ink);
+    font-family: Inter, system-ui, sans-serif;
+  }
+  #stage svg { position: absolute; inset: 0; overflow: visible; }
+  #stage svg * { transform-box: fill-box; transform-origin: center; }
+
+  /* Motion vocabulary. Each class starts at --at and lasts --dur.
+     Elements stay in their "before" state until --at, so set --at on everything that moves. */
+
+  /* Draw a solid line. The path needs pathLength="1". */
+  .draw { stroke-dasharray: 1; stroke-dashoffset: 1;
+          animation: draw var(--dur, .8s) var(--ease-in-out) var(--at, 0s) both; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+
+  /* Fade in. For labels and secondary marks. */
+  .fade { opacity: 0; animation: fade var(--dur, .5s) var(--ease-out) var(--at, 0s) both; }
+  @keyframes fade { to { opacity: 1; } }
+
+  /* Rise: fade in from 14px below. For text blocks. */
+  .rise { opacity: 0; transform: translateY(14px);
+          animation: rise var(--dur, .6s) var(--ease-out) var(--at, 0s) both; }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+
+  /* Pop: fade in from 92% scale. For nodes, icons, dots. */
+  .pop { opacity: 0; transform: scale(.92);
+         animation: pop var(--dur, .45s) var(--ease-out) var(--at, 0s) both; }
+  @keyframes pop { to { opacity: 1; transform: none; } }
+
+  /* Wipe: reveal left to right. For dashed lines and anything .draw can't handle. */
+  .wipe { clip-path: inset(0 100% 0 0);
+          animation: wipe var(--dur, .8s) var(--ease-in-out) var(--at, 0s) both; }
+  @keyframes wipe { to { clip-path: inset(0 0 0 0); } }
+</style>
+</head>
+<body>
+<div id="stage">
+  <!-- Frame 0 shows the title: the feed may pause here before autoplay. -->
+  <h1 style="position:absolute;left:96px;top:96px;margin:0;font-size:76px;line-height:1.05;font-weight:800;letter-spacing:-.02em">
+    Title of the idea.
+  </h1>
+
+  <svg width="1080" height="1350" viewBox="0 0 1080 1350">
+    <!-- Example: a box pops in, then a line draws from it, then a label fades in. -->
+    <rect class="pop" style="--at:.4s" x="96" y="420" width="220" height="140" rx="16"
+          fill="none" stroke="var(--ink)" stroke-width="4"/>
+    <path class="draw" style="--at:.9s" pathLength="1" d="M316 490 H560"
+          fill="none" stroke="var(--ink)" stroke-width="4"/>
+    <text class="fade" style="--at:1.6s" x="438" y="470" text-anchor="middle"
+          font-size="28" font-weight="500" fill="var(--muted)">label</text>
+  </svg>
+</div>
+<script>
+  // Size in pixels, duration in seconds. Keep the final frame on screen for 2.5 s or more.
+  window.STAGE = { width: 1080, height: 1350, duration: 5 };
+  // Optional: window.seek = (t) => { /* update anything driven by JavaScript, e.g. a counter */ };
+</script>
+</body>
+</html>

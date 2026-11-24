@@ -86,6 +86,12 @@ The `npx` route copies only the skills. To use the demo, clone the repo and poin
 
 Then say "I want to set up evals for my agent", or run `/pmai-skills:ask-pmai`. The checks the skills write are small Python scripts, so you need Python 3.
 
+## Other skills
+
+`other/` holds skills for the same reader that sit outside the evals loop. They are not in the plugin; install them one by one.
+
+- [`animate-illustration`](other/animate-illustration/): turns a static explainer illustration into a looping MP4 and GIF for LinkedIn, decks and READMEs.
+
 ## Where it comes from
 
 We built the method while evaluating a production reconciliation agent against Claude Code and Codex on the same jobs. We then tested it on a production WhatsApp commerce agent, and every round of testing changed the skills. It borrows from three places:
